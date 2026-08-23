@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIRA — National Independent Research Authority | Kallol Chakrabarti</title>
+<meta name="description" content="A proposed framework for a parallel research-funding layer for unaffiliated scholars, plus an in-progress Guinness World Records DOI-output attempt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d10;
+    --panel:#14171c;
+    --panel-2:#181c22;
+    --ink:#ece7db;
+    --ink-dim:#9aa2ab;
+    --ink-faint:#5f6770;
+    --gold:#c99a4a;
+    --gold-dim:#8a6c39;
+    --slate:#5b87a6;
+    --rule:#262b32;
+    --rule-strong:#343a42;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(201,154,74,0.07), transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, rgba(91,135,166,0.06), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold-dim); color:#0b0d10;}
+  a{color:var(--gold);}
+  .wrap{max-width:880px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    border-bottom:1px solid var(--rule);
+    padding:18px 0;
+    position:sticky; top:0; z-index:20;
+    background:rgba(11,13,16,0.86);
+    backdrop-filter:blur(10px);
+  }
+  .topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .brandmark{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.14em; color:var(--ink-dim); text-transform:uppercase;
+  }
+  .brandmark b{color:var(--gold); font-weight:500;}
+  .topnav{display:flex; gap:22px; font-size:13px; font-family:'IBM Plex Mono',monospace; letter-spacing:0.04em;}
+  .topnav a{color:var(--ink-dim); text-decoration:none; border-bottom:1px solid transparent; padding-bottom:2px;}
+  .topnav a:hover{color:var(--gold); border-color:var(--gold-dim);}
+
+  /* ---------- hero ---------- */
+  .hero{padding:72px 0 40px; position:relative;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--slate);
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:""; width:26px; height:1px; background:var(--slate);}
+  h1.title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(34px, 5.4vw, 58px);
+    line-height:1.06;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+  }
+  h1.title em{
+    font-style:italic; font-weight:300; color:var(--gold);
+  }
+  .subtitle{
+    color:var(--ink-dim); font-size:17px; max-width:58ch; margin:0 0 30px;
+  }
+  .hero-meta{
+    display:flex; gap:22px; flex-wrap:wrap;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-faint);
+    border-top:1px solid var(--rule); padding-top:20px; margin-top:8px;
+  }
+  .hero-meta span b{color:var(--ink-dim); font-weight:500;}
+
+  /* ---------- section shell ---------- */
+  section{padding:64px 0;}
+  section + section{border-top:1px solid var(--rule);}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:30px;}
+  .sec-num{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--gold-dim);
+  }
+  h2{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:clamp(24px, 3vw, 32px); margin:0; letter-spacing:-0.01em;
+  }
+  p{color:#cfc9bc; margin:0 0 16px;}
+  .lede{font-size:18px; color:var(--ink); max-width:66ch;}
+
+  /* ---------- pillars ---------- */
+  .pillars{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); border-radius:2px; overflow:hidden;}
+  .pillar{
+    background:var(--panel);
+    padding:26px 28px;
+    display:grid;
+    grid-template-columns:56px 1fr;
+    gap:20px;
+  }
+  .pillar-index{
+    font-family:'Fraunces', serif; font-weight:300; font-size:34px; color:var(--gold-dim); line-height:1;
+  }
+  .pillar h3{
+    font-family:'IBM Plex Sans', sans-serif; font-weight:600; font-size:16.5px; margin:0 0 8px; color:var(--ink);
+  }
+  .pillar p{margin:0; font-size:14.5px; color:var(--ink-dim);}
+
+  /* ---------- constitutional strip ---------- */
+  .const-strip{
+    display:flex; gap:22px; align-items:center;
+    border-left:2px solid var(--gold-dim);
+    padding:18px 24px;
+    background:rgba(201,154,74,0.05);
+    margin-top:36px;
+  }
+  .const-strip .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; color:var(--gold);
+    text-transform:uppercase; white-space:nowrap;
+  }
+  .const-strip p{margin:0; font-size:14.5px; color:var(--ink-dim);}
+
+  /* ---------- trigger mechanisms (highlighted) ---------- */
+  .trigger-section{
+    background:linear-gradient(180deg, rgba(201,154,74,0.045), transparent 40%);
+  }
+  .trigger-intro{max-width:66ch; margin-bottom:36px;}
+  .trigger-grid{display:grid; gap:22px;}
+  .trigger-card{
+    border:1px solid var(--gold-dim);
+    border-radius:3px;
+    background:linear-gradient(155deg, rgba(201,154,74,0.07), var(--panel) 45%);
+    padding:30px 32px;
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  .trigger-card::before{
+    content:attr(data-mark);
+    position:absolute; top:-1px; right:-1px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px; letter-spacing:0.1em; color:#0b0d10;
+    background:var(--gold);
+    padding:5px 12px;
+    text-transform:uppercase;
+    border-radius:0 2px 0 8px;
+  }
+  .trigger-head{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+  .trigger-head h3{
+    font-family:'Fraunces', serif; font-weight:600; font-size:23px; margin:0;
+    letter-spacing:-0.01em;
+  }
+  .trigger-head .trigger-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em;
+    color:var(--slate); text-transform:uppercase;
+  }
+  .trigger-body{color:var(--ink-dim); font-size:15px; max-width:70ch;}
+  .trigger-rule{
+    display:grid; grid-template-columns:110px 1fr; gap:14px;
+    font-size:13.5px;
+    padding-top:14px; border-top:1px solid var(--rule-strong);
+  }
+  .trigger-rule dt{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em;
+    color:var(--gold); text-transform:uppercase; padding-top:1px;
+  }
+  .trigger-rule dd{margin:0; color:var(--ink);}
+  .trigger-rule + .trigger-rule{border-top:none; padding-top:0;}
+  .trigger-rules-wrap{display:grid; gap:10px;}
+
+  /* ---------- record / ledger section ---------- */
+  .record-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:44px; align-items:start;}
+  @media (max-width:760px){ .record-grid{grid-template-columns:1fr;} }
+
+  .seal{
+    width:190px; height:190px; border-radius:50%;
+    border:1px solid var(--gold-dim);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; margin:6px 0 26px;
+  }
+  .seal::before{
+    content:""; position:absolute; inset:10px; border:1px solid var(--rule-strong); border-radius:50%;
+  }
+  .seal-text{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:0.06em; color:var(--ink-dim);
+    text-align:center; padding:0 24px;
+  }
+  .seal-status{
+    display:inline-block; margin-top:6px; font-size:9.5px; letter-spacing:0.12em; color:var(--slate);
+    border:1px solid var(--slate); border-radius:20px; padding:3px 10px; text-transform:uppercase;
+  }
+
+  .record-copy .cat-label{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:0.1em; color:var(--gold);
+    text-transform:uppercase; margin-bottom:10px; display:block;
+  }
+  .record-copy h3{
+    font-family:'Fraunces', serif; font-weight:600; font-size:23px; margin:0 0 14px; line-height:1.25;
+  }
+
+  .ledger{
+    border:1px solid var(--rule-strong); border-radius:2px; overflow:hidden;
+    background:var(--panel);
+  }
+  .ledger-head{
+    display:grid; grid-template-columns:1fr 90px;
+    padding:12px 20px; font-family:'IBM Plex Mono',monospace; font-size:11px;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint);
+    border-bottom:1px solid var(--rule-strong);
+  }
+  .ledger-row{
+    display:grid; grid-template-columns:1fr 90px;
+    padding:11px 20px; font-family:'IBM Plex Mono',monospace; font-size:13px;
+    border-bottom:1px solid var(--rule);
+  }
+  .ledger-row:last-child{border-bottom:none;}
+  .ledger-row .val{color:var(--gold); text-align:right;}
+  .ledger-row.total{background:var(--panel-2); font-weight:500;}
+  .ledger-row.total .val{color:var(--ink);}
+
+  /* ---------- open questions ---------- */
+  .notes{
+    border:1px dashed var(--rule-strong);
+    padding:28px 30px;
+    position:relative;
+    background:repeating-linear-gradient(135deg, rgba(255,255,255,0.012) 0 2px, transparent 2px 14px);
+  }
+  .notes .flag{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--slate); margin-bottom:14px; display:block;
+  }
+  .notes-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .notes-list li{
+    display:grid; grid-template-columns:20px 1fr; gap:12px; font-size:14.5px; color:var(--ink-dim);
+  }
+  .notes-list li::before{content:"—"; color:var(--gold-dim);}
+  .notes-list strong{color:var(--ink); font-weight:600;}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--rule);
+    padding:34px 0 46px;
+  }
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  .footer-credit{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint); letter-spacing:0.03em;}
+  .footer-credit b{color:var(--ink-dim); font-weight:500;}
+  .footer-links{display:flex; gap:18px; font-family:'IBM Plex Mono',monospace; font-size:12px;}
+  .footer-links a{color:var(--ink-faint); text-decoration:none;}
+  .footer-links a:hover{color:var(--gold);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brandmark"><b>NIRA</b> — Concept Notes</div>
+    <nav class="topnav">
+      <a href="#concept">Concept</a>
+      <a href="#expansion">Merit &amp; Need Triggers</a>
+      <a href="#record">Research Record</a>
+      <a href="#questions">Open Questions</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Independent Policy Concept</div>
+    <h1 class="title">A parallel lane for<br><em>independent</em> research capital.</h1>
+    <p class="subtitle">A framework proposing the National Independent Research Authority (NIRA) — a funding layer for unaffiliated scholars, resourced outside existing welfare allocations and running alongside, not against, present institutional structures.</p>
+    <div class="hero-meta">
+      <span><b>Author</b> Kallol Chakrabarti</span>
+      <span><b>Status</b> Concept draft, open for comment</span>
+      <span><b>Type</b> Independent research proposal</span>
+    </div>
+  </div>
+</header>
+
+<section id="concept">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>The Concept</h2></div>
+    <p class="lede">NIRA is proposed as a non‑confrontational institutional layer: it doesn't ask for reform of any existing quota system, it adds a separate funding channel for unaffiliated and independent scholars, resourced through direct innovation funds, philanthropic endowments, and corporate CSR — money that wouldn't otherwise reach research budgets at all.</p>
+
+    <div class="sec-head" style="margin-top:8px;"><span class="sec-num">02</span><h2>Structural Pillars</h2></div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-index">01</div>
+        <div>
+          <h3>Functional categorisation</h3>
+          <p>Shifts the framing from demographic quota debate to functional scholarly output, recognising the "Independent / Unaffiliated Researcher" as a distinct category of human capital.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-index">02</div>
+        <div>
+          <h3>Direct‑to‑scholar grant model</h3>
+          <p>De‑links research funding, tuition support, and innovation grants from university affiliation — resources follow validated individual output directly, via open‑science ledgers and registered DOIs.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-index">03</div>
+        <div>
+          <h3>Off‑budget funding via CSR &amp; endowments</h3>
+          <p>Leverages Section 135 of the Companies Act to channel corporate CSR and private capital into an autonomous research trust — an additive pool that draws nothing from existing welfare allocations.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-index">04</div>
+        <div>
+          <h3>Constitutional alignment</h3>
+          <p>Grounded in Article 51A(h) — the fundamental duty to develop scientific temper and humanism — positioned to sit alongside, not against, existing institutional structures.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="const-strip">
+      <span class="tag">Art. 51A(h)</span>
+      <p>"It shall be the duty of every citizen of India to develop the scientific temper, humanism and the spirit of inquiry and reform" — cited as the constitutional anchor for the NIRA concept.</p>
+    </div>
+  </div>
+</section>
+
+<section id="expansion" class="trigger-section">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Merit &amp; Need Triggers</h2></div>
+    <p class="trigger-intro lede">Three automatic, rule‑based entry points into the NIRA benefit basket — grants, scholarships, startup funding, foreign‑institution admission support. None of them touch or reduce any reserved seat; each activates only once a specific, checkable condition is met.</p>
+
+    <div class="trigger-grid">
+
+      <div class="trigger-card" data-mark="Mechanism 01">
+        <div class="trigger-head">
+          <h3>Merit Parity Trigger</h3>
+          <span class="trigger-tag">Score‑based · automatic</span>
+        </div>
+        <p class="trigger-body">In any exam or admission cycle, the score or rank that secures a seat or post under the OBC / SC / ST cutoff for that specific exam becomes the reference floor. Any general‑category candidate who meets or exceeds that floor — but is not allotted a seat or post — becomes automatically eligible for the full NIRA benefit basket. No new seat is created or reassigned; the trigger activates a parallel track, not a claim on the reserved one.</p>
+        <div class="trigger-rules-wrap">
+          <div class="trigger-rule">
+            <dt>Trigger</dt>
+            <dd>Score / rank ≥ published category cutoff for that cycle, seat not allotted.</dd>
+          </div>
+          <div class="trigger-rule">
+            <dt>Verified via</dt>
+            <dd>Official published cutoffs (JEE, NEET, UPSC, state PSCs) cross‑checked against the candidate's own scorecard — no self‑reporting needed for eligibility itself.</dd>
+          </div>
+          <div class="trigger-rule">
+            <dt>Benefit</dt>
+            <dd>Startup fund, research/study grant, scholarship, foreign‑institution admission support — same basket as Independent Poor Scholars, below.</dd>
+          </div>
+        </div>
+      </div>
+
+      <div class="trigger-card" data-mark="Mechanism 02">
+        <div class="trigger-head">
+          <h3>Independent Poor Scholars</h3>
+          <span class="trigger-tag">Income‑based · general category</span>
+        </div>
+        <p class="trigger-body">A parallel, income‑verified category for general‑category candidates below a defined family‑income ceiling — offering the same class of support SC/ST candidates receive: scholarships, fee waivers, coaching access, hostel support. This is a need‑based track, not a merit gate, so it stands independently of exam performance.</p>
+        <div class="trigger-rules-wrap">
+          <div class="trigger-rule">
+            <dt>Trigger</dt>
+            <dd>Documented family income below a defined ceiling, general category, no other reservation‑linked benefit already covering the same cost.</dd>
+          </div>
+          <div class="trigger-rule">
+            <dt>Verified via</dt>
+            <dd>Income certificate / IT return, the same class of documentation already used for EWS certification.</dd>
+          </div>
+          <div class="trigger-rule">
+            <dt>Benefit</dt>
+            <dd>Fee waivers, hostel support, coaching stipends, scholarships — matched in type and value to existing SC/ST scholarship schemes, not merely equivalent in name.</dd>
+          </div>
+        </div>
+      </div>
+
+      <div class="trigger-card" data-mark="Mechanism 03">
+        <div class="trigger-head">
+          <h3>EWS Fee‑Gap Safety Net</h3>
+          <span class="trigger-tag">Fast‑track · post‑admission</span>
+        </div>
+        <p class="trigger-body">Closes a specific, documented gap: a candidate clears admission under EWS reservation, but the seat goes unused because the family cannot pay the fees — and the general EWS scheme has no built‑in mechanism to bridge that. This is framed as an execution gap in EWS delivery, not a critique of reservation policy itself. Because fee deadlines fall within 1–2 weeks of admission, this track is designed to pre‑approve and disburse fast, not run through a standard grant cycle.</p>
+        <div class="trigger-rules-wrap">
+          <div class="trigger-rule">
+            <dt>Trigger</dt>
+            <dd>Valid EWS admission offer + income below the institution's fee threshold + no education loan or waiver already secured.</dd>
+          </div>
+          <div class="trigger-rule">
+            <dt>Verified via</dt>
+            <dd>The same income proof already filed for the EWS certificate — no fresh application cycle required.</dd>
+          </div>
+          <div class="trigger-rule">
+            <dt>Benefit</dt>
+            <dd>Pre‑approved bridge grant or zero/low‑interest income‑linked loan for tuition, released fast enough to meet the admission deadline. Automatically enrolls the candidate in Independent Poor Scholars for follow‑on support.</dd>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="record">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Parallel Research Record</h2></div>
+
+    <div class="record-grid">
+      <div class="record-copy">
+        <span class="cat-label">Proposed Guinness World Records™ category</span>
+        <div class="seal">
+          <div class="seal-text">
+            MOST DOIS REGISTERED<br>BY AN UNAFFILIATED<br>INDEPENDENT RESEARCHER<br>IN ONE YEAR
+            <div class="seal-status">Under manual review</div>
+          </div>
+        </div>
+        <h3>Most DOIs registered by an unaffiliated, independent researcher in a calendar year</h3>
+        <p>Submitted as a new record category, currently in Guinness World Records' manual review queue — a companion data point to the NIRA concept, evidencing that validated, DOI‑anchored output can come from outside a university affiliation.</p>
+      </div>
+
+      <div>
+        <div class="ledger">
+          <div class="ledger-head"><span>Annual ledger</span><span style="text-align:right;">DOIs</span></div>
+          <div class="ledger-row"><span>Q1</span><span class="val">—</span></div>
+          <div class="ledger-row"><span>Q2</span><span class="val">—</span></div>
+          <div class="ledger-row"><span>Q3</span><span class="val">—</span></div>
+          <div class="ledger-row"><span>Q4</span><span class="val">—</span></div>
+          <div class="ledger-row total"><span>Total claimed</span><span class="val">Pending verification</span></div>
+        </div>
+        <p style="margin-top:14px; font-size:13px; color:var(--ink-faint);">Populate with real per‑quarter DOI counts and a verification method (registry, timestamps, independent auditor) once available.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Open Questions</h2></div>
+    <div class="notes">
+      <span class="flag">For future revisions of the concept</span>
+      <ul class="notes-list">
+        <li><strong>Funding math.</strong> CSR/endowment funding is framed as additive, but a target corpus size and disbursement rate would make that claim testable.</li>
+        <li><strong>Governance & oversight.</strong> No accountability structure is defined yet — board composition, grant adjudication process, audit trail for CSR‑sourced funds under Section 135.</li>
+        <li><strong>Verification standard.</strong> "Validated individual output" needs a defined bar — peer review status, preprint vs. journal DOI, quality screening — so DOI volume can't be gamed.</li>
+        <li><strong>Record methodology.</strong> The Guinness claim needs a public, auditable ledger of each DOI with timestamp and registrar before it can clear manual review.</li>
+        <li><strong>Interoperability.</strong> How NIRA would coordinate with existing research bodies (UGC, DST, ICSSR) rather than duplicate their remit.</li>
+        <li><strong>Scale of the Merit Parity Trigger.</strong> JEE, NEET, and UPSC alone produce a large pool of near-miss general-category candidates each cycle — a rough estimate of eligible volume would make the proposed fund size credible.</li>
+        <li><strong>Benefit parity, precisely defined.</strong> "Same facilities SC/ST categories enjoy" needs to specify whether that means matching scheme type, matching rupee value, or both — some existing schemes are tied to constitutional provisions this fund can't replicate.</li>
+        <li><strong>Disbursement speed for the Fee-Gap track.</strong> A pre-approved, fast-release fund structure is a different (and harder) operational build than a normal annual grant cycle — worth stress-testing against real fee-payment deadlines.</li>
+        <li><strong>Overlap rules.</strong> A candidate could qualify under more than one trigger at once (e.g. Merit Parity + income ceiling) — the memo should state whether benefits stack or the candidate draws from whichever basket is larger.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-credit">Created by <b>Kallol Chakrabarti</b>, Independent Researcher</div>
+    <div class="footer-links">
+      <a href="#concept">Concept</a>
+      <a href="#expansion">Triggers</a>
+      <a href="#record">Record</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
